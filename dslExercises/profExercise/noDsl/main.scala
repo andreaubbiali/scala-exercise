@@ -11,6 +11,7 @@ object main{
         val jane = Employee(Name("Jane", "Doe"), Money(90000))
 
         List(buck, jane).foreach { employee =>
+            // TODO era '26.' CAMBIA QUALCOSA(?)
             val biweeklyGross = employee.annualGrossSalary / 26 // era '26.' CAMBIA QUALCOSA(?)
 
             val deductions = federalIncomeTax(employee, biweeklyGross) +

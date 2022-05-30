@@ -18,3 +18,11 @@ and when you are in sbt executor type:
     ~run        -> if you want reload sbt on each save
     run         -> otherwise
 </code>
+
+
+### Compile multiple files in scala:
+
+In terminal type:
+- `scalac *.scala`
+- `scala main`
+

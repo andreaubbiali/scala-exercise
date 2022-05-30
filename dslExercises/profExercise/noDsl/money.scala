@@ -2,6 +2,14 @@ package payroll
 
 import java.math.{BigDecimal,MathContext,RoundingMode}
 
+/**
+ * From row 8 to 11 is called 'Money' with an argument.
+ * Using Money(someArgument) you are refering to the object Money.
+ * If you want to instantiate an object of type class you need to use
+ * new Money(someArgument). 
+ * So in this rows are called methods of the money object(in this case are called the 
+ * apply method silently)
+ */
 class Money(val amount: BigDecimal) {
     def + (m: Money) = Money(amount.add(m.amount))
     def - (m: Money) = Money(amount.subtract(m.amount))
@@ -18,6 +26,11 @@ class Money(val amount: BigDecimal) {
         case _ => false
     }
 }
+
+/**
+ * singleton object money.
+ * used to instantiate new instances of money class.
+ */
 object Money {
     def apply(amount: BigDecimal) = new Money(amount)
     def apply(amount: Double) = new Money(scaled(new BigDecimal(amount)))

@@ -12,7 +12,7 @@ object main{
 
         List(buck, jane).foreach { employee =>
             // TODO era '26.' CAMBIA QUALCOSA(?)
-            val biweeklyGross = employee.annualGrossSalary / 26 // era '26.' CAMBIA QUALCOSA(?)
+            val biweeklyGross = employee.annualGrossSalary / 26
 
             val deductions = federalIncomeTax(employee, biweeklyGross) +
                 stateIncomeTax(employee, biweeklyGross) +
@@ -20,7 +20,8 @@ object main{
                 retirementFundContributions(employee, biweeklyGross)
 
             val check = Paycheck(biweeklyGross, biweeklyGross - deductions, deductions)
-                printf("%s %s: %s\n", employee.name.first, employee.name.last, check)
+            
+            printf("%s %s: %s\n", employee.name.first, employee.name.last, check)
         }
     }
 }

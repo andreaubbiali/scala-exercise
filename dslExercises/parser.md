@@ -14,9 +14,12 @@
 
 `something.*` or `rep(something)`   = match zero or more times.
 
-`repsep(something, separatorChar)`  = match something zero or more times, separated by separatorChar.
+`rep1sep(something, separatorChar)`  = match something zero or more times, separated by separatorChar.
 
 `something.?`           = match something zero or 1 time, returns Option.       
 
 `something1 ~ something2`   = combines a parsers into a chain, every parser must match successfully and every parser result is preserved. Returns a special data structure that can be deconstructed with the same character ~ in pattern matching part
 
+`"""\w+""".r`       = alphanumerical character and the underscore (so essentially A through Z, 0 through 9 and _). Spaces however are their own group (represented by \s)
+
+`"""[\w+]""".r`     = one letter

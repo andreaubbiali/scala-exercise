@@ -17,7 +17,7 @@ object main{
         List(buck, jane).foreach { employee =>
 
             // 26 is casted (implicitly) to Money object by the class "import payroll.Type2Money._"
-            val biweeklyGross = employee.annualGrossSalary / 26
+            val biweeklyGross = employee.annualGrossSalary / 26.0
             
             // we are calling methods of the singleton object 'DeductionsCalculator' imported in this file
             val deductions = federalIncomeTax(employee, biweeklyGross) +

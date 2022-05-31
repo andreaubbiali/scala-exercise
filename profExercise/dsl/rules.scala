@@ -1,13 +1,24 @@
 package payroll.dsl
 
+/**
+ * protected[X] means that the class is protected into the package X. 
+ * X can be some enclosing package, class or singleton object
+ */
+
 import payroll._
 
 object rules {
     def apply(rules: Employee => Paycheck) = new PayrollBuilderRules(rules)
+    
+    // implicit convert 2.weeks
     implicit def int2Duration(i: Int) = Duration(i)
+
+    // calculate the employee salary
     implicit def employee2GrossPayBuilder(e: Employee) = new GrossPayBuilder(e)
+    // calculate deductions by deductionRule
     implicit def grossPayBuilder2DeductionsBuilder(b: GrossPayBuilder) =
         new DeductionsBuilder(b)
+    // build a new rule
     implicit def double2DeductionsBuilderDeductionHelper(d: Double) =
         new DeductionsBuilderDeductionHelper(d)
 }
@@ -16,7 +27,6 @@ protected[dsl] class PayrollBuilderRules(rules: Employee => Paycheck) {
     def apply(employee: Employee) = {
         try { rules(employee) }
         catch {
-            // TODO era PayRollException invece di Exception
             case th: Throwable => new Exception(
             "Failed to process payroll for employee: " + employee, th)
         }
@@ -25,9 +35,13 @@ protected[dsl] class PayrollBuilderRules(rules: Employee => Paycheck) {
 
 import payroll.Type2Money._
 
+/**
+ * Calculate the salary of the employee
+ */
 protected[dsl] class GrossPayBuilder(val employee: Employee) {
     var gross: Money = 0
     
+    // calculate the salary for n days
     def salary_for(days: Int) = {
         gross += dailyGrossSalary(employee.annualGrossSalary) * days
         this
@@ -37,6 +51,9 @@ protected[dsl] class GrossPayBuilder(val employee: Employee) {
     def dailyGrossSalary(annual: Money) = annual / 260.0
 }
 
+/**
+ * calculate deductions by deductionRule
+ */
 protected[dsl] class DeductionsBuilder(gpb: GrossPayBuilder) {
     val employee = gpb.employee
     var paycheck: Paycheck = new Paycheck(gpb.gross, gpb.gross, 0)
@@ -49,8 +66,7 @@ protected[dsl] class DeductionsBuilder(gpb: GrossPayBuilder) {
 
     def addDeductions(amount: Money) = paycheck = paycheck plusDeductions amount
     def addDeductionsPercentageOfGross(percentage: Double) = {
-        // TODO era '100.' cambia qualcosa?
-        val amount = paycheck.gross * (percentage/100)
+        val amount = paycheck.gross * (percentage/100.0)
         addDeductions(amount)
     }
 }
@@ -66,6 +82,9 @@ object stateIncomeTax extends DeductionCalculator
 object insurancePremiums extends DeductionCalculator
 object retirementFundContributions extends DeductionCalculator
 
+/**
+ * build a new rule
+ */
 protected[dsl] class DeductionsBuilderDeductionHelper(val factor: Double) {
     def in (builder: DeductionsBuilder) = {
         builder addDeductions Money(factor)

@@ -73,6 +73,8 @@ object BrainfuckEvaluator {
        val src = scala.io.Source.fromFile(filename)
        val lines = src.mkString
 
+       println("RESULT expected is 'Hello World\\n':")
+
        BrainfuckParser.parseAll(BrainfuckParser.program, lines) match {
            case BrainfuckParser.Success(t,_) =>
                BrainfuckInterpreter.exec(t, new Environment)

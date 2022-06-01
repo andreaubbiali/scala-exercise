@@ -1,10 +1,8 @@
 import scala.io.Source
 import scala.util.parsing.combinator.JavaTokenParsers
-import scala.collection.mutable
-import scala.util.matching.Regex
 
 
-class csvParser(var mappa : mutable.HashMap[String, Array[String]]) extends JavaTokenParsers{
+class csvParser() extends JavaTokenParsers{
 
     override val whiteSpace = """[ \t]+""".r
 
@@ -25,9 +23,7 @@ object main{
 
     def main(args: Array[String]): Unit = {
         
-       var mappa = new mutable.HashMap[String, Array[String]]()
-
-        val csv = new csvParser(mappa)
+        val csv = new csvParser()
 
         val src = scala.io.Source.fromFile("file.csv")
         val lines = src.mkString
